@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planfor — Your Wedding Your Way</title>
+  <meta name="description" content="Plan your perfect wedding, your way. Join the Planfor waitlist for early access." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:       #F0EDE8;
+      --white:       #FAFAF8;
+      --sage:        #8E9B8B;
+      --sage-dark:   #6B7A68;
+      --sage-border: rgba(142,155,139,0.25);
+      --text:        #3E423D;
+      --text-muted:  #717182;
+      --text-light:  #AAAABC;
+      --error:       #C0616B;
+      --success:     #6B8F71;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 55% at 50% 0%, rgba(142,155,139,0.1) 0%, transparent 65%),
+        radial-gradient(ellipse 70% 45% at 50% 100%, rgba(142,155,139,0.07) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 5%, var(--sage) 50%, transparent 95%);
+      z-index: 10;
+      opacity: 0.6;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 24px 80px;
+    }
+
+    .logo-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 44px;
+      animation: riseIn 0.9s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .logo-block img {
+      width: 180px;
+      max-width: 52vw;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .tagline {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.6rem, 2.2vw, 0.72rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tagline::before, .tagline::after {
+      content: '—';
+      color: var(--sage);
+      font-size: 0.7em;
+    }
+
+    .badge {
+      font-size: clamp(0.62rem, 2.2vw, 0.72rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: riseIn 0.9s 0.15s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .ornament {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      max-width: 380px;
+      margin-bottom: 40px;
+      animation: fadeIn 1s 0.28s ease both;
+    }
+    .ornament::before, .ornament::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--sage-border) 50%, transparent);
+    }
+    .ornament span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      color: var(--sage);
+      letter-spacing: 0.2em;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 390px;
+      background: var(--white);
+      border: 1px solid var(--sage-border);
+      border-radius: 2px;
+      padding: 36px 32px 32px;
+      box-shadow: 0 4px 48px rgba(62,66,61,0.07), 0 1px 8px rgba(62,66,61,0.04);
+      animation: riseIn 0.9s 0.32s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .card-intro {
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 0.65rem;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 7px;
+    }
+    .field input {
+      width: 100%;
+      background: var(--cream);
+      border: 1px solid var(--sage-border);
+      border-radius: 1px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+    .field input::placeholder { color: var(--text-light); }
+    .field input:focus {
+      border-color: var(--sage);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(142,155,139,0.1);
+    }
+
+    .consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin: 20px 0 24px;
+    }
+    .cb-wrap {
+      position: relative;
+      width: 16px; height: 16px;
+      min-width: 16px;
+      margin-top: 2px;
+    }
+    .cb-wrap input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%; height: 100%;
+      cursor: pointer;
+      margin: 0;
+    }
+    .cb-ui {
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--sage-border);
+      border-radius: 1px;
+      background: var(--cream);
+      transition: all 0.15s;
+      pointer-events: none;
+    }
+    .cb-wrap input:checked + .cb-ui {
+      background: var(--sage);
+      border-color: var(--sage);
+    }
+    .cb-ui::after {
+      content: '';
+      position: absolute;
+      top: 2px; left: 5px;
+      width: 4px; height: 8px;
+      border: 1.5px solid white;
+      border-top: none; border-left: none;
+      transform: rotate(45deg);
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .cb-wrap input:checked + .cb-ui::after { opacity: 1; }
+
+    .consent label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      cursor: pointer;
+    }
+    .consent label a {
+      color: var(--sage-dark);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .btn {
+      width: 100%;
+      background: var(--sage);
+      border: 1px solid var(--sage);
+      color: #fff;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.73rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 15px;
+      border-radius: 1px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover:not(:disabled) { background: var(--sage-dark); border-color: var(--sage-dark); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn.loading::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      animation: shimmer 1.2s infinite;
+    }
+    @keyframes shimmer {
+      from { transform: translateX(-100%); }
+      to   { transform: translateX(100%); }
+    }
+
+    .msg {
+      margin-top: 14px;
+      padding: 11px 14px;
+      border-radius: 1px;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      display: none;
+    }
+    .msg.error { background: rgba(192,97,107,0.06); border: 1px solid rgba(192,97,107,0.25); color: var(--error); display: block; }
+    .msg.ok    { background: rgba(107,143,113,0.08); border: 1px solid rgba(107,143,113,0.25); color: var(--success); display: block; }
+
+    .thank-you {
+      display: none;
+      text-align: center;
+      animation: riseIn 0.7s ease both;
+    }
+    .ty-icon {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--sage);
+      letter-spacing: 0.35em;
+      margin-bottom: 20px;
+    }
+    .thank-you h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.9rem;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .thank-you p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+    .btn-ig {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: transparent;
+      border: 1px solid var(--sage);
+      color: var(--sage-dark);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 13px 22px;
+      border-radius: 1px;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-ig:hover { background: var(--sage); color: #fff; }
+    .btn-ig svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+    .footer {
+      margin-top: 44px;
+      text-align: center;
+      animation: fadeIn 1s 0.5s ease both;
+    }
+    .footer p {
+      font-size: 0.68rem;
+      color: var(--text-light);
+      letter-spacing: 0.07em;
+      line-height: 1.9;
+    }
+    .footer a { color: var(--text-light); text-decoration: none; transition: color 0.15s; }
+    .footer a:hover { color: var(--sage-dark); }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 44px 16px 60px; }
+      .card { padding: 28px 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="logo-block">
+    <img src="./planfor_logo_without_slogan_colored_background.png" alt="Planfor" />
+    <div class="tagline">Your Wedding Your Way</div>
+  </div>
+
+  <p class="badge">Coming Soon &nbsp;·&nbsp; Join the Waitlist</p>
+
+  <div class="ornament"><span>✦</span></div>
+
+  <div class="card" id="card">
+    <p class="card-intro">
+      Be the first to experience Planfor.<br />
+      Leave your email and we'll be in touch.
+    </p>
+
+    <form id="waitlist-form" novalidate>
+      <div class="field">
+        <label for="name">Full Name <span style="font-size:0.6rem;letter-spacing:0.1em;">(optional)</span></label>
+        <input type="text" id="name" name="name" placeholder="Your name" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email" required />
+      </div>
+      <div class="consent">
+        <div class="cb-wrap">
+          <input type="checkbox" id="consent" name="consent" required />
+          <span class="cb-ui"></span>
+        </div>
+        <label for="consent">
+          I agree to receive updates and marketing emails from Planfor.
+          Unsubscribe anytime. See our <a href="#" onclick="return false;">Privacy Policy</a>.
+        </label>
+      </div>
+      <button type="submit" class="btn" id="submit-btn">Join the Waitlist</button>
+      <div class="msg" id="msg-error"></div>
+    </form>
+
+    <div class="thank-you" id="thank-you">
+      <div class="ty-icon">✦ ✦ ✦</div>
+      <h2>You're on the list.</h2>
+      <p>
+        Thank you for joining Planfor.<br />
+        We'll reach out as soon as we launch.
+      </p>
+      <a href="https://instagram.com/planfor.wedding" class="btn-ig" id="ig-link">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Follow us on Instagram
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>
+      Planfor Ltd. &nbsp;·&nbsp; 31 Street Gordon, Tel Aviv, Israel<br />
+      hello@planfor.io
+      &nbsp;·&nbsp;
+      <a href="https://crm-api.planfor.io/api/waitlist/unsubscribe" onclick="return false;">Unsubscribe</a>
+      &nbsp;·&nbsp;
+      <a href="#" onclick="return false;">Privacy Policy</a>
+    </p>
+    <p style="margin-top:10px;opacity:0.55;font-size:0.63rem;">© 2026 Planfor. All rights reserved.</p>
+  </div>
+
+</div>
+<script>
+  const form      = document.getElementById('waitlist-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const msgError  = document.getElementById('msg-error');
+  const thankYou  = document.getElementById('thank-you');
+  const igLink    = document.getElementById('ig-link');
+
+  // Update once Instagram handle confirmed:
+  // igLink.href = 'https://instagram.com/YOUR_FINAL_HANDLE';
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email   = document.getElementById('email').value.trim();
+    const name    = document.getElementById('name').value.trim();
+    const consent = document.getElementById('consent').checked;
+
+    msgError.className = 'msg';
+    msgError.textContent = '';
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      msgError.className = 'msg error';
+      msgError.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    if (!consent) {
+      msgError.className = 'msg error';
+      msgError.textContent = 'Please agree to receive updates to join the list.';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    submitBtn.textContent = 'Joining\u2026';
+
+    try {
+      const res  = await fetch('https://crm-api.planfor.io/api/waitlist/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name, marketing_consent: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+
+      form.style.display = 'none';
+      thankYou.style.display = 'block';
+
+      setTimeout(() => { window.location.href = igLink.href; }, 4000);
+
+    } catch (err) {
+      msgError.className = 'msg error';
+      msgError.textContent = err.message;
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading');
+      submitBtn.textContent = 'Join the Waitlist';
+    }
+  });
+</script>
+</body>
+</html>
