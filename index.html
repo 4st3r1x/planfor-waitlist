@@ -379,7 +379,9 @@
   <!-- Form -->
   <div id="form-area" style="width:100%;max-width:460px;display:flex;flex-direction:column;gap:8px;">
     <div style="display:flex;gap:8px;">
-      <input type="text" id="name" placeholder="Your name" autocomplete="name"
+      <input type="text" id="first_name" placeholder="First name" autocomplete="given-name"
+        style="flex:1;background:var(--white);border:1px solid var(--sage-border);border-radius:1px;padding:11px 14px;color:var(--text);font-family:'Jost',sans-serif;font-size:0.85rem;font-weight:300;outline:none;min-width:0;-webkit-appearance:none;" />
+      <input type="text" id="last_name" placeholder="Last name" autocomplete="family-name"
         style="flex:1;background:var(--white);border:1px solid var(--sage-border);border-radius:1px;padding:11px 14px;color:var(--text);font-family:'Jost',sans-serif;font-size:0.85rem;font-weight:300;outline:none;min-width:0;-webkit-appearance:none;" />
       <input type="email" id="email" placeholder="your@email.com" autocomplete="email"
         style="flex:1.4;background:var(--white);border:1px solid var(--sage-border);border-radius:1px;padding:11px 14px;color:var(--text);font-family:'Jost',sans-serif;font-size:0.85rem;font-weight:300;outline:none;min-width:0;-webkit-appearance:none;" />
@@ -450,11 +452,12 @@
     btn.textContent = 'Joining\u2026';
 
     try {
-      const name = document.getElementById('name')?.value.trim() || '';
+      const first_name = document.getElementById('first_name')?.value.trim() || '';
+      const last_name = document.getElementById('last_name')?.value.trim() || '';
       const res  = await fetch('https://crm-api.planfor.io/api/waitlist/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, marketing_consent: true }),
+        body: JSON.stringify({ email, first_name, last_name, marketing_consent: true }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
